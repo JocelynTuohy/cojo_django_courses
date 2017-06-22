@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset='utf-8'>
+    <title>{{ course.name }} Comments</title>
+    {% load static %}
+    <link rel="stylesheet" href={% static '/courses/css/coursestyle.css' %}>
+  </head>
+  <body>
+    <div id='wrapper'>
+      <h2>{{ course.name }}</h2>
+      <p>{{ course.description.description }}</p>
+      <ul>
+      {% for each in comments %}
+        <li>{{ each.content }}<span class="timestamp">{{ each.created_at }}</li>
+      {% endfor %}
+      </ul>
+      <form action="/addcomment" method="POST">
+      {% csrf_token %}
+        <textarea name="content" id="content" cols="50" rows="3"></textarea>
+        <button name="course" value={{ course.id }}>Add Comment</button>
+      </form>
+      <a href="/">Return to Course List</a>
+    </div>
+  </body>
+</html>

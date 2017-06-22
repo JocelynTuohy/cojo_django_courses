@@ -2,9 +2,54 @@
 <html>
   <head>
     <meta charset='utf-8'>
-    <title></title>
+    <title>Add a Course</title>
+    {% load static %}
+    <link rel="stylesheet" href={% static 'courses/css/coursestyle.css' %}>
   </head>
   <body>
-    testing this out baddabing baddaboom
+    <div id=wrapper>
+      <form action="/addcourse" method="POST">
+      {% csrf_token %}
+        <h3>Add a new course</h3>
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name">
+        <label for="description">Description:</label>
+        <textarea name="description" id="description" cols="50" rows="5"
+          placeholder="Add description here...">
+        </textarea>
+        <button id="addbutton" name="addbutton" value="addbutton">Add</button>
+      </form>
+      <form action="/modifycourse" method="POST">
+      {% csrf_token %}
+        <h3>Courses</h3>
+        <table>
+          <thead>
+            <tr>
+              <td>Course Name</td>
+              <td>Description</td>
+              <td>Date Added</td>
+              <td>Actions</td>
+            </tr>
+          </thead>
+          <tbody>
+            {% for course in courselist %}
+              <tr>
+                <td>{{ course.name }}</td>
+                <td>{{ course.description.description }}</td>
+                <td>{{ course.created_at }}</td>
+                <td>
+                  <button type="submit" class="removebutton" name="removebutton" value={{ course.id }}>
+                    remove                  
+                  </button>
+                  <button type="submit" class="commentbutton" name="commentbutton" value={{ course.id }}>
+                    comments
+                  </button>
+                </td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </form>
+    </div>
   </body>
 </html>
